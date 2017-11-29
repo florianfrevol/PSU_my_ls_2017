@@ -19,31 +19,6 @@
 #include <sys/stat.h>
 
 
-void info(struct dirent *entry)
-{
-	printf("File name:\t%s\n", entry->d_name);
-}
-
-
-char **find_name(char **list)
-{
-	int i = 0;
-	char *name_file;
-	DIR *dir;
-	struct dirent *entry;
-
-	dir = opendir("./");
-	entry = readdir(dir);
-	while (entry != NULL) {
-		name_file = entry->d_name;
-		list[i] = name_file;
-		i = i + 1;		
-		entry = readdir(dir);
-		entry->d_name;
-	}
-	return (list);
-}
-
 
 int number_files(char **list_name)
 {	
@@ -90,7 +65,7 @@ char *modif_time(char *str)
 {
 	int i = 4;
 	int a = 0;
-	char *chaine = malloc(sizeof(char *) * my_strlen(str));
+	char *chaine = malloc(sizeof(char *) + my_strlen(str));
 
 	while (str[i] != '\0' && i != 16) {
 		chaine[i - 4] = str[i];
@@ -103,7 +78,6 @@ char *modif_time(char *str)
 void print_name_size(char **list, int e)
 {
 	struct stat s;
-	struct stat n;
 	unsigned char *ptr;
 	char *str;
 
@@ -202,10 +176,7 @@ void print_name(char **list, int b)
 	while (i != b) {
 		if (list[i][0] != '.') {
 			my_putstr(list[i]);
-			if (i + 1 != b)
-				my_putstr("  ");
-			else
-				my_putchar('\n');
+			my_putchar('\n');
 		}
 		i = i + 1;
 	}
@@ -217,10 +188,7 @@ void ls_option_a(char **list, int b)
 
 	while (i != b) {
 		my_putstr(list[i]);
-		if (i + 1 != b)
-			my_putstr("  ");
-		else
-			my_putchar('\n');
+		my_putchar('\n');
 		i = i + 1;
 	}
 }
@@ -237,6 +205,28 @@ int option_ls(char **list_name, int e, int b, char **argv)
 				return (0);
 		}
 	}
+	else if (argv[1][0] != '-') {
+
+	}
+}
+
+char **find_name(char **list)
+{
+	int i = 0;
+	char *name_file;
+	DIR *dir;
+	struct dirent *entry;
+
+	dir = opendir("./");
+	entry = readdir(dir);
+	while (entry != NULL) {
+		name_file = entry->d_name;
+		list[i] = name_file;
+		i = i + 1;		
+		entry = readdir(dir);
+		entry->d_name;
+	}
+	return (list);
 }
 
 int main(int argc, char **argv)
@@ -249,7 +239,7 @@ int main(int argc, char **argv)
 	find_name(list_name);
 	a = number_files(list_name);
 	b = number_all_files(list_name);
-	
+
 	if (argc == 1) {
 		print_name(list_name, b);
 		return (0);
