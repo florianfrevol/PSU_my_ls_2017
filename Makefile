@@ -6,7 +6,10 @@
 ##
 
 SRC	=	my_ls.c				\
-		src.c
+		src.c				\
+		my_ls2.c			\
+		my_ls3.c			\
+		my_ls4.c
 
 OBJ	=	$(SRC:.c=.o)
 
